@@ -1,0 +1,352 @@
+{
+  "name": "NextAura Content Posting WF",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "041f34f3-15cc-4378-b4a1-fa6a7849e7b8",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -880,
+        -736
+      ],
+      "id": "7cb5bba9-d255-4fa4-9029-793f7cd52914",
+      "name": "Webhook",
+      "webhookId": "041f34f3-15cc-4378-b4a1-fa6a7849e7b8"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ",
+          "mode": "list",
+          "cachedResultName": "team 19 f",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": 0,
+            "ID": "={{ $('Webhook').item.json.body.id }}",
+            "Status": "Published",
+            "Facebook Output": "={{ $('Facebook Content').item.json.output }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Brief Description / Keywords",
+              "displayName": "Brief Description / Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Posting Date",
+              "displayName": "Posting Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Posting Time",
+              "displayName": "Posting Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Facebook",
+              "displayName": "Facebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Facebook Output",
+              "displayName": "Facebook Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        112,
+        -736
+      ],
+      "id": "4da2d0bc-47ff-408d-9491-75e343bd5532",
+      "name": "Update row in sheet",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "R1sIjjeErvAIWqeq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "DigiAcademicHub",
+        "edge": "feed",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "message",
+                "value": "={{ $json.output }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -736
+      ],
+      "id": "534f76ae-61a2-470b-8404-2fdf526a5b24",
+      "name": "Facebook Graph API",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "kFGdwkeDogAbVR7m",
+          "name": "digiacademic hub page posting"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a372c2a6-3f5f-48db-9a88-530656e9ff5c",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        -528
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "rnjUsJhnDNay7Vhz",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b493a3c6-939a-4301-9257-055b80c28d7a",
+              "name": "productName",
+              "value": "={{ $json.body.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "e2813669-08fd-4d0d-a215-b0634032330b",
+              "name": "description",
+              "value": "={{ $json.body.description }}",
+              "type": "string"
+            },
+            {
+              "id": "e2c2b38a-bac1-4a8a-a7c5-14e6f8186774",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a11a6a26-ec2f-4c89-9c67-ba9be41b5494",
+      "name": "Set Search Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -656,
+        -736
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=Product name:\n{{ $json.productName }}\nProduct Description:\n{{ $json.description }}",
+        "options": {
+          "systemMessage": "# System Role\nYou are an expert Facebook ecommerce content creator and performance marketer. \nYou specialize in writing high-converting product posts that drive engagement, clicks, and sales for online shoppers.\n\n# Task Specification\nUsing the provided product information and research content, create a Facebook post that:\n1. Is written in a friendly, persuasive, and conversational tone suitable for a broad consumer audience.\n2. Clearly highlights key product benefits and value (not just features).\n3. Is optimized for Facebook feed consumption (short paragraphs, line breaks).\n4. Includes 1–3 relevant emojis to increase scroll-stopping appeal.\n5. Creates urgency or curiosity (limited offer, problem–solution framing, or social proof).\n6. Includes a clear call to action (Buy now, Learn more, Comment, or Shop today).\n7. Contains 3–5 relevant ecommerce-friendly hashtags.\n8. Is plain text only (no markdown, no links unless provided in input).\n\n# Specifics and Context\n- The content should be easy to understand, human-like, and promotional without sounding spammy.\n- Focus on how the product solves a problem or improves the customer’s life.\n- Keep the post under 2,000 characters.\n- Adapt the tone based on product type (tech, fashion, beauty, home, etc.).\n- If product price or offer is not provided, do NOT invent one.\n\n# Output Rules\n- Output ONLY the final Facebook post text.\n- Do NOT include explanations, titles, or formatting labels.\n- Do NOT mention that you are an AI.\n\n# Example\nInput: Product – Smartphone for photography lovers  \nOutput:\n📸 Capture every moment like a pro!\n\nLove taking photos but tired of blurry shots and low-light struggles? This smartphone is built for photography lovers who want stunning results without complicated settings.\n\n✨ Why people love it:\n• Crystal-clear night photos  \n• Ultra-stable video recording  \n• Pro-level camera features in your pocket  \n\nReady to level up your photography game?  \n👉 Shop now and start capturing memories that matter.\n\n#SmartphonePhotography #TechLovers #OnlineShopping\n"
+        }
+      },
+      "id": "0a846d5b-fb36-4d5e-b4d0-2f8949d98313",
+      "name": "Facebook Content",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -432,
+        -736
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Content Generation & Facebook Posting\n**Generates optimized Facebook post content using AI based on product details, then automatically publishes it to the Facebook page and updates the posting status in Google Sheets.**",
+        "height": 416,
+        "width": 1312,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -944,
+        -816
+      ],
+      "id": "37d9b24d-907b-4593-bc65-3ace50b9f9c4",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Search Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Facebook Content",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Fields": {
+      "main": [
+        [
+          {
+            "node": "Facebook Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Content": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "438fbd79-c127-4a60-8e45-955f7ee48a5e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "580149fc39dc462fb7c4798e0c9ed839455bb134ae25e4f9f53ed2c2bf4404a7"
+  },
+  "id": "fztCr9jlmCwFtr7A",
+  "tags": []
+}

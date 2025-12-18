@@ -1,0 +1,907 @@
+{
+  "name": "NextAura image Posting WF copy without crendentials",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8e959124-67c4-4c5b-aef0-2556501aedb4",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -608,
+        192
+      ],
+      "id": "d6166ef2-c4c2-4c13-a5eb-2d269ddfd903",
+      "name": "Webhook Image",
+      "webhookId": "8e959124-67c4-4c5b-aef0-2556501aedb4"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        192
+      ],
+      "id": "1011a150-a61d-49eb-96f5-52e1a39f62cc",
+      "name": "Wait",
+      "webhookId": "3ab1f23f-7e4e-4c11-9766-efeabf62e151"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.krea.ai/jobs/{{JSON.parse($node[\"HTTP Request\"].json.data).job_id}}\n",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        640,
+        192
+      ],
+      "id": "653f0381-f2c1-4033-be2b-5359607817f2",
+      "name": "Fetch Image"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.krea.ai/generate/image/bfl/flux-1-dev",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer "
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": \"{{ $json.output }}\",\n  \"width\": 1024,\n  \"height\": 576\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        192,
+        192
+      ],
+      "id": "8dd6c093-4013-4919-b5b3-1b1494611ae7",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9db914db-e36f-4431-8b3b-461c065a4906",
+              "name": "body.productName",
+              "value": "={{ $json.body.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "83da46e5-9c73-467a-a223-08bfd8f4e77e",
+              "name": "body.productImage",
+              "value": "={{ $json.body.productImage }}",
+              "type": "string"
+            },
+            {
+              "id": "9730b2f6-fce9-4a11-852a-bbcfbf944bbc",
+              "name": "body.description",
+              "value": "={{ $json.body.description }}",
+              "type": "string"
+            },
+            {
+              "id": "8657d9e9-7fca-4323-aa4d-c134c1606300",
+              "name": "body.id",
+              "value": "={{ $json.body.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -384,
+        192
+      ],
+      "id": "080c6990-9cf0-4264-b77e-5a9cbb52241a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create a high-quality advertisement image using the following inputs:\n\nProduct Name: {{ $json.body.productName }}\nProduct Description: {{ $json.body.description }}\nReference Product Image URL: {{ $json.body.productImage }}\n\nImage requirements:\n- Use the reference product image as the exact visual base.\n- Place the product in a professional, premium advertising scene.\n- Background should be clean, modern, and visually appealing (studio, lifestyle, or soft gradient depending on product type).\n- Lighting should be realistic and high-end (commercial photography style).\n- The product must be the clear focal point.\n- No logos or text overlays unless they are naturally part of the product.\n- Style suitable for Facebook and Instagram ads.\n- Ultra-realistic, sharp focus, high resolution, professional marketing photography.\n\nReturn only the final image-generation prompt. Do not include explanations or extra text.\n",
+        "options": {
+          "systemMessage": "You are a professional advertising creative director and visual prompt engineer.\n\nYour task is to generate high-quality, realistic advertisement image prompts for e-commerce and social media marketing.\n\nRules:\n- Always keep the product visually accurate to the provided reference image.\n- Do NOT change the product’s shape, color, branding, or proportions.\n- Focus on commercial appeal, clarity, and conversion.\n- Create clean, modern, scroll-stopping ad visuals suitable for Facebook, Instagram, and marketplaces.\n- Avoid text-heavy designs; use minimal or no text unless explicitly required.\n- The output must be a single, detailed image-generation prompt optimized for AI image models.\nReturn ONLY a single-paragraph image generation prompt as plain text.\nDo not return JSON, keys, or explanations.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -160,
+        192
+      ],
+      "id": "1b068700-ee44-472d-aa30-2ae136be09ef",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "imageUrl",
+              "value": "={{ $json.result.urls[0] }}"
+            },
+            {
+              "name": "captionText",
+              "value": "={{ $('Webhook Image').item.json.body.description }}"
+            },
+            {
+              "name": "Node",
+              "value": "17841462381886084"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set Image & Caption",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        96
+      ],
+      "id": "f5eea613-14b6-4a84-9190-eafac1026cd8"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v22.0",
+        "node": "={{ $('Set Image & Caption').item.json.Node }}",
+        "edge": "media_publish",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "creation_id",
+                "value": "={{ $json.id }}"
+              },
+              {
+                "name": "image_url",
+                "value": "={{ $('Set Image & Caption').item.json.imageUrl }}"
+              },
+              {
+                "name": "caption",
+                "value": "={{ $('Set Image & Caption').item.json.captionText }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        96
+      ],
+      "id": "575ffd2e-e71d-4a26-83aa-170d1dd952e1",
+      "name": "Facebook Graph API",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2SSS42jzElqKI2WG",
+          "name": "instagram attempt 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -96,
+        416
+      ],
+      "id": "3fbd5b60-1f76-4e5e-bf2b-357441e84730",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "rnjUsJhnDNay7Vhz",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "imageUrl",
+              "value": "={{ $json.result.urls[0] }}"
+            },
+            {
+              "name": "captionText",
+              "value": "={{ $('Webhook Image').item.json.body.description }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set Image & Caption1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        288
+      ],
+      "id": "5c572d0a-4302-42e9-aa84-0d50009483b7"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ",
+          "mode": "list",
+          "cachedResultName": "team 19 f",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1628306895,
+          "mode": "list",
+          "cachedResultName": "Image",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit#gid=1628306895"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID ": "={{ $('Webhook Image').item.json.body.id }}",
+            "Status": "Published",
+            "Instagram Output": "={{ $('Set Image & Caption').item.json.result.urls[0] }}"
+          },
+          "matchingColumns": [
+            "ID "
+          ],
+          "schema": [
+            {
+              "id": "ID ",
+              "displayName": "ID ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Visual Description",
+              "displayName": "Visual Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Image (Optional)\n",
+              "displayName": "Product Image (Optional)\n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Posting Date",
+              "displayName": "Posting Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Posting Time",
+              "displayName": "Posting Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Facebook",
+              "displayName": "Facebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Instagram",
+              "displayName": "Instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Facebook Output",
+              "displayName": "Facebook Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Instagram Output",
+              "displayName": "Instagram Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1712,
+        96
+      ],
+      "id": "66d31362-226d-4843-b66c-bf5c7523225b",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "R1sIjjeErvAIWqeq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d72c10f9-841b-49bc-a69c-726baa10f457",
+              "leftValue": "={{ $('Webhook Image').item.json.body.instagram }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        864,
+        96
+      ],
+      "id": "97e00fe7-13bd-4d50-a433-145726c0b83b",
+      "name": "If Instagram"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d72c10f9-841b-49bc-a69c-726baa10f457",
+              "leftValue": "={{ $('Webhook Image').item.json.body.facebook }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        864,
+        288
+      ],
+      "id": "daadfdde-84c1-4075-926d-1e7c0ec883e5",
+      "name": "If facebook"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "DigiAcademicHub",
+        "edge": "photos",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "url",
+                "value": "={{ $json.result.urls[0] }}"
+              },
+              {
+                "name": "message",
+                "value": "={{ $json.captionText }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        288
+      ],
+      "id": "6d5ba10b-9457-4d79-988a-0695c8d4e386",
+      "name": "Facebook Posting Graph API1",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "kFGdwkeDogAbVR7m",
+          "name": "digiacademic hub page posting"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v22.0",
+        "node": "={{ $json.Node }}",
+        "edge": "media",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "image_url",
+                "value": "={{ $json.imageUrl }}"
+              },
+              {
+                "name": "caption",
+                "value": "={{ $json.captionText }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        96
+      ],
+      "id": "70f443b1-da09-435a-8b6f-65e567fae26a",
+      "name": "Instagram Creating Container ID",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2SSS42jzElqKI2WG",
+          "name": "instagram attempt 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ",
+          "mode": "list",
+          "cachedResultName": "team 19 f",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1628306895,
+          "mode": "list",
+          "cachedResultName": "Image",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit#gid=1628306895"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID ": "={{ $('Webhook Image').item.json.body.id }}",
+            "Status": "Published",
+            "Facebook Output": "={{ $('Set Image & Caption1').item.json.result.urls[0] }}"
+          },
+          "matchingColumns": [
+            "ID "
+          ],
+          "schema": [
+            {
+              "id": "ID ",
+              "displayName": "ID ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Visual Description",
+              "displayName": "Visual Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Image (Optional)\n",
+              "displayName": "Product Image (Optional)\n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Posting Date",
+              "displayName": "Posting Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Posting Time",
+              "displayName": "Posting Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Facebook",
+              "displayName": "Facebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Instagram",
+              "displayName": "Instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Facebook Output",
+              "displayName": "Facebook Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Instagram Output",
+              "displayName": "Instagram Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1600,
+        304
+      ],
+      "id": "180c1d12-8159-47c5-b2dc-8259b5d01845",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "R1sIjjeErvAIWqeq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Image Generation & Posting workflow\n**Generates high-quality promotional images using AI based on product details, then automatically posts the image to Facebook and/or Instagram and updates the publishing status in Google Sheets.**",
+        "height": 656,
+        "width": 2704,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        -32
+      ],
+      "id": "6ec42342-6e2f-4cff-a80a-b944c40ffc69",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Fetch Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Image": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Image": {
+      "main": [
+        [
+          {
+            "node": "If Instagram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If facebook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Image & Caption": {
+      "main": [
+        [
+          {
+            "node": "Instagram Creating Container ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Image & Caption1": {
+      "main": [
+        [
+          {
+            "node": "Facebook Posting Graph API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Instagram": {
+      "main": [
+        [
+          {
+            "node": "Set Image & Caption",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "If facebook": {
+      "main": [
+        [
+          {
+            "node": "Set Image & Caption1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram Creating Container ID": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Posting Graph API1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b8af4151-1c7a-4113-97a4-d8f09fac7eac",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "580149fc39dc462fb7c4798e0c9ed839455bb134ae25e4f9f53ed2c2bf4404a7"
+  },
+  "id": "hMAt8K0H8yCyKww4",
+  "tags": []
+}

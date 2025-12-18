@@ -1,0 +1,563 @@
+{
+  "name": "Data from Front-end WF",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "771ec305-56a9-413b-a03a-6a1a8e9fd6a6",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1552,
+        208
+      ],
+      "id": "71418132-8113-4507-8cea-26969a177730",
+      "name": "Content Post",
+      "webhookId": "771ec305-56a9-413b-a03a-6a1a8e9fd6a6"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "10f60d42-4400-462d-92f0-2119ced5dca8",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1552,
+        432
+      ],
+      "id": "4523d0df-0d7d-4b24-8698-3859dd551b8e",
+      "name": "Image post",
+      "webhookId": "10f60d42-4400-462d-92f0-2119ced5dca8"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "3254b463-6fb2-4f49-ad21-cb8e7d4550e7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1552,
+        656
+      ],
+      "id": "8d9b1089-046e-4724-b97a-c5c768c83463",
+      "name": "Video Post",
+      "webhookId": "3254b463-6fb2-4f49-ad21-cb8e7d4550e7"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ",
+          "mode": "list",
+          "cachedResultName": "team 19 f",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Content Posting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json.body.productName }}",
+            "Brief Description / Keywords": "={{ $json.body.description }}",
+            "Posting Time": "={{ $json.body.date.split('T')[1] }}",
+            "Posting Date": "={{ $json.body.date.split('T')[0] }}",
+            "Facebook": "={{ $json.body.platforms.replace(/\\s+/g, '').includes('Facebook') ? 'Yes' : '' }}\n",
+            "ID": "={{ $json.body.id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Brief Description / Keywords",
+              "displayName": "Brief Description / Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posting Date",
+              "displayName": "Posting Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posting Time",
+              "displayName": "Posting Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook",
+              "displayName": "Facebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Output",
+              "displayName": "Facebook Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1328,
+        208
+      ],
+      "id": "94f23692-9506-4910-a3d5-82e3aebf5209",
+      "name": "Append data in Content Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "R1sIjjeErvAIWqeq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ",
+          "mode": "list",
+          "cachedResultName": "team 19 f",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1628306895,
+          "mode": "list",
+          "cachedResultName": "Image",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit#gid=1628306895"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $('Image post').item.json.body.productName }}",
+            "Visual Description": "={{ $('Image post').item.json.body.description }}",
+            "Product Image (Optional)\n": "={{ $json.webViewLink }}",
+            "Posting Date": "={{ $('Image post').item.json.body.date.split('T')[0] }}\n",
+            "Posting Time": "={{ $('Image post').item.json.body.date.split('T')[1] }}",
+            "Facebook": "={{ $('Image post').item.json.body.platforms.replace(/\\s+/g, '').includes('Facebook') ? 'Yes' : '' }}\n",
+            "Instagram": "={{ $('Image post').item.json.body.platforms.replace(/\\s+/g, '').includes('Instagram') ? 'Yes' : '' }}",
+            "ID ": "={{ $('Image post').item.json.body.id }}"
+          },
+          "matchingColumns": [
+            "ID "
+          ],
+          "schema": [
+            {
+              "id": "ID ",
+              "displayName": "ID ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Visual Description",
+              "displayName": "Visual Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product Image (Optional)\n",
+              "displayName": "Product Image (Optional)\n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posting Date",
+              "displayName": "Posting Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posting Time",
+              "displayName": "Posting Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook",
+              "displayName": "Facebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram",
+              "displayName": "Instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Output",
+              "displayName": "Facebook Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Output",
+              "displayName": "Instagram Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1328,
+        432
+      ],
+      "id": "1199e969-76b0-424c-b9b1-2550d7e843b1",
+      "name": "Append data in Image Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "R1sIjjeErvAIWqeq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ",
+          "mode": "list",
+          "cachedResultName": "team 19 f",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 734586098,
+          "mode": "list",
+          "cachedResultName": "Video",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KB56Jxp0X8BHGOhk9q2IqB112rL3Kf4FRBVXbu1tvZQ/edit#gid=734586098"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $('Video Post').item.json.body.productName }}",
+            "Posting Date": "={{ $('Video Post').item.json.body.date.split('T')[0] }}\n\n",
+            "Posting Time": "={{ $('Video Post').item.json.body.date.split('T')[1] }}\n",
+            "Facebook": "={{ $('Video Post').item.json.body.platforms.replace(/\\s+/g, '').includes('Facebook') ? 'Yes' : '' }}\n\n",
+            "Instagram": "={{ $('Video Post').item.json.body.platforms.replace(/\\s+/g, '').includes('Instagram') ? 'Yes' : '' }}\n",
+            "Youtube": "={{ $('Video Post').item.json.body.platforms.replace(/\\s+/g, '').includes('Youtube') ? 'Yes' : '' }}\n\n",
+            "Video Script ": "={{ $('Video Post').item.json.body.description }}",
+            "Upload Product Image ": "={{ $json.webViewLink }}",
+            "ID": "={{ $('Video Post').item.json.body.id }}"
+          },
+          "matchingColumns": [
+            "ID "
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video Script ",
+              "displayName": "Video Script ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Upload Product Image ",
+              "displayName": "Upload Product Image ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Posting Date",
+              "displayName": "Posting Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posting Time",
+              "displayName": "Posting Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook",
+              "displayName": "Facebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram",
+              "displayName": "Instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Youtube",
+              "displayName": "Youtube",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Facebook Output",
+              "displayName": "Facebook Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Output",
+              "displayName": "Instagram Output",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1328,
+        656
+      ],
+      "id": "ffe8aa20-8219-4c4d-9be3-f5bb02c4bb50",
+      "name": "Append data in Video Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "R1sIjjeErvAIWqeq",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Data from Front-End\n**Receives and handles data sent from the frontend via POST request.\nThis node initializes the workflow using user-submitted inputs.**",
+        "height": 688,
+        "width": 640,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1712,
+        112
+      ],
+      "id": "93f52eb8-f220-4eab-8bc5-5bbf1c2e408f",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Content Post": {
+      "main": [
+        [
+          {
+            "node": "Append data in Content Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image post": {
+      "main": [
+        [
+          {
+            "node": "Append data in Image Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Post": {
+      "main": [
+        [
+          {
+            "node": "Append data in Video Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9e3e0f89-5140-4621-9817-e666c0725f4e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "580149fc39dc462fb7c4798e0c9ed839455bb134ae25e4f9f53ed2c2bf4404a7"
+  },
+  "id": "hSf1T6gJB4IQhZsd",
+  "tags": []
+}
