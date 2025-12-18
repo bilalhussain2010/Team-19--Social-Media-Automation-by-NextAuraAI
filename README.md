@@ -1,8 +1,8 @@
-# NextGenAI – AI-Powered Social Media Automation Engine 
+# NextAuraAI – AI-Powered Social Media Automation Engine 
 This repository contains a complete AI-powered social media automation system built using n8n, Google Apps Script, and AI models. The project includes full documentation, exported workflow JSON files, and scheduling logic implemented via Google Sheets and Apps Script. The system supports automated content, image, and video generation with time-based posting across multiple social media platforms.
 
 ## Overview
-NextGenAI is an AI-driven social media automation platform that enables automated content creation, media generation, scheduling, and publishing across multiple social media platforms including Facebook, Instagram, and YouTube. The system is built using n8n workflows, Google Apps Script–based scheduling, and integrates AI models and social media APIs to reduce manual effort and improve consistency in digital marketing operations.
+NextAuraAI is an AI-driven social media automation platform that enables automated content creation, media generation, scheduling, and publishing across multiple social media platforms including Facebook, Instagram, and YouTube. The system is built using n8n workflows, Google Apps Script–based scheduling, and integrates AI models and social media APIs to reduce manual effort and improve consistency in digital marketing operations.
 
 ## Key Features
 - AI-generated text content for social media posts
@@ -56,6 +56,7 @@ This deployment model separates user interaction, scheduling, and execution laye
   Analytics and reporting features are under development. Once completed, the dashboard will provide detailed insights into post performance, scheduling metrics, and execution status across platforms.
 
 These limitations are part of ongoing enhancements and do not affect the core automation and scheduling functionality of the system.
+
 
 
 
