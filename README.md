@@ -30,5 +30,34 @@ A Google Apps Script runs on a time-based trigger and continuously monitors the 
 The corresponding n8n workflow then generates AI-based content or media, publishes the post to the selected social media platforms (Facebook, Instagram, and/or YouTube), and updates the posting status back in Google Sheets.
 
 This separation of scheduling (Google Sheets + Apps Script) and execution (n8n workflows) ensures reliable time-based automation, modular design, and easy extensibility.
+## Deployment
+
+The system is deployed using a cloud-based, production-ready setup:
+
+- **Frontend Application**  
+  The user-facing frontend is deployed and accessible at:  
+  👉 https://nextauraai.com/  
+  It provides interfaces for content, image, and video posting requests and communicates with n8n workflows via secure webhooks.
+
+- **Automation Engine (n8n)**  
+  The n8n automation platform is hosted on **AWS**, where all execution workflows (content, image, and video posting) are deployed and managed.
+
+- **Scheduling Layer**  
+  Google Sheets and Google Apps Script are used for time-based scheduling. A time-driven Apps Script trigger monitors scheduled entries and dispatches requests to the appropriate n8n workflows at execution time.
+
+This deployment model separates user interaction, scheduling, and execution layers, ensuring scalability, reliability, and modular system design.
+
+## Limitations
+
+- **Video Generation in Production**  
+  The video generation workflow currently faces stability challenges in the production environment due to external video generation API constraints. Active improvements and optimizations are in progress.
+
+- **Analytics Dashboard**  
+  Analytics and reporting features are under development. Once completed, the dashboard will provide detailed insights into post performance, scheduling metrics, and execution status across platforms.
+
+These limitations are part of ongoing enhancements and do not affect the core automation and scheduling functionality of the system.
+
+
+
 
 
