@@ -1,4 +1,4 @@
-# NextGenAI – AI-Powered Social Media Automation Platform
+# NextGenAI – AI-Powered Social Media Automation Engine 
 This repository contains a complete AI-powered social media automation system built using n8n, Google Apps Script, and AI models. The project includes full documentation, exported workflow JSON files, and scheduling logic implemented via Google Sheets and Apps Script. The system supports automated content, image, and video generation with time-based posting across multiple social media platforms.
 
 ## Overview
@@ -56,6 +56,7 @@ This deployment model separates user interaction, scheduling, and execution laye
   Analytics and reporting features are under development. Once completed, the dashboard will provide detailed insights into post performance, scheduling metrics, and execution status across platforms.
 
 These limitations are part of ongoing enhancements and do not affect the core automation and scheduling functionality of the system.
+
 
 
 
