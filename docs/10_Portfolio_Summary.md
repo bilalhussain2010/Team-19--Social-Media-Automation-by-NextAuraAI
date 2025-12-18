@@ -1,0 +1,1 @@
+This project demonstrates real-world automation using n8n, AI services, and social media APIs. It highlights skills in workflow orchestration, API integration, AI prompt engineering, and scalable system design suitable for production environments.
