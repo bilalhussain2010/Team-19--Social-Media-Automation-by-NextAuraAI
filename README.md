@@ -22,4 +22,11 @@ NextGenAI is an AI-driven social media automation platform that enables automate
 - REST APIs & Webhooks
 
 ## Workflow Overview
-User input is collected through a frontend interface and passed to n8n via webhooks for initial logging. Posting requests are stored in Google Sheets along with scheduled date and time. A Google Apps Script scheduler continuously
+User input is collected through a frontend interface and sent to n8n via webhooks for initial request logging. Each posting request is stored in Google Sheets along with its scheduled date and time, which acts as the central scheduling and tracking system.
+
+A Google Apps Script runs on a time-based trigger and continuously monitors the Google Sheets. When the scheduled posting time is reached, the script automatically sends the request to the appropriate n8n execution workflow (content, image, or video).
+
+The corresponding n8n workflow then generates AI-based content or media, publishes the post to the selected social media platforms (Facebook, Instagram, and/or YouTube), and updates the posting status back in Google Sheets.
+
+This separation of scheduling (Google Sheets + Apps Script) and execution (n8n workflows) ensures reliable time-based automation, modular design, and easy extensibility.
+
